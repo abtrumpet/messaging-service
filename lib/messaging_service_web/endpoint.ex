@@ -1,16 +1,6 @@
 defmodule MessagingServiceWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :messaging_service
 
-  # The session will be stored in the cookie and signed,
-  # this means its contents can be read but not tampered with.
-  # Set :encryption_salt if you would also like to encrypt it.
-  @session_options [
-    store: :cookie,
-    key: "_messaging_service_key",
-    signing_salt: "messaging_salt",
-    same_site: "Lax"
-  ]
-
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -26,9 +16,6 @@ defmodule MessagingServiceWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Jason
 
-  plug BetterParams
-  plug Plug.MethodOverride
   plug Plug.Head
-  plug Plug.Session, @session_options
   plug MessagingServiceWeb.Router
 end

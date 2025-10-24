@@ -67,10 +67,10 @@ defmodule MessagingServiceWeb.MessageController do
     ]
 
   def send_email(conn, params) do
-    # Add type field for email if not present
-    params_with_type = Map.put(params, :type, :email)
+    # Add type field for email endpoint
+    params = Map.put(params, "type", "email")
 
-    case Messaging.send_message(params_with_type) do
+    case Messaging.send_message(params) do
       {:ok, message} ->
         conn
         |> put_status(:ok)

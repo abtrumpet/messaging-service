@@ -7,20 +7,20 @@ defmodule MessagingServiceWeb.ConversationControllerTest do
     # Create some test messages to generate conversations
     {:ok, _msg1} =
       Messaging.send_message(%{
-        from: "+12016661234",
-        to: "+18045551234",
-        type: :sms,
-        body: "First message",
-        timestamp: "2024-11-01T14:00:00Z"
+        "from" => "+12016661234",
+        "to" => "+18045551234",
+        "type" => "sms",
+        "body" => "First message",
+        "timestamp" => "2024-11-01T14:00:00Z"
       })
 
     {:ok, _msg2} =
       Messaging.send_message(%{
-        from: "+18045551234",
-        to: "+12016661234",
-        type: :sms,
-        body: "Second message",
-        timestamp: "2024-11-01T14:05:00Z"
+        "from" => "+18045551234",
+        "to" => "+12016661234",
+        "type" => "sms",
+        "body" => "Second message",
+        "timestamp" => "2024-11-01T14:05:00Z"
       })
 
     :ok

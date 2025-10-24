@@ -53,10 +53,7 @@ defmodule MessagingServiceWeb.WebhookController do
     ]
 
   def receive_email(conn, params) do
-    # Add type field for email if not present
-    params_with_type = Map.put(params, :type, :email)
-
-    case Messaging.receive_message(params_with_type) do
+    case Messaging.receive_message(params) do
       {:ok, message} ->
         conn
         |> put_status(:ok)

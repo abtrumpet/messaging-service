@@ -6,10 +6,6 @@ defmodule MessagingServiceWeb.Router do
     plug OpenApiSpex.Plug.PutApiSpec, module: MessagingServiceWeb.ApiSpec
   end
 
-  pipeline :normalize_message_type do
-    plug MessagingServiceWeb.Plugs.NormalizeMessageType
-  end
-
   scope "/api" do
     pipe_through :api
 
@@ -17,18 +13,14 @@ defmodule MessagingServiceWeb.Router do
     get "/openapi", OpenApiSpex.Plug.RenderSpec, []
     get "/swagger", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
 
-    # Message sending endpoints (normalize type param)
+    # Message sending endpoints
     scope "/messages" do
-      pipe_through :normalize_message_type
-
       post "/sms", MessagingServiceWeb.MessageController, :send_sms
       post "/email", MessagingServiceWeb.MessageController, :send_email
     end
 
-    # Webhook endpoints (normalize type param)
+    # Webhook endpoints
     scope "/webhooks" do
-      pipe_through :normalize_message_type
-
       post "/sms", MessagingServiceWeb.WebhookController, :receive_sms
       post "/email", MessagingServiceWeb.WebhookController, :receive_email
     end

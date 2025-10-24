@@ -20,6 +20,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Suppress Tesla deprecation warning for builder usage
-config :tesla, :adapter, Tesla.Adapter.Hackney
+config :tesla,
+  adapter: Tesla.Adapter.Hackney,
+  disable_deprecated_builder_warning: true
 
 import_config "#{config_env()}.exs"

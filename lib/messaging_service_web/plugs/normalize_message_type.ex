@@ -4,20 +4,29 @@ defmodule MessagingServiceWeb.Plugs.NormalizeMessageType do
   This ensures consistent type handling throughout the application.
   """
 
-  import Plug.Conn
-
-  @message_types ["sms", "mms", "email"]
+  @message_types [:sms, :mms, :email]
 
   def init(opts), do: opts
 
   def call(conn, _opts) do
     case conn.params do
-      %{type: type} when is_binary(type) and type in @message_types ->
-        normalized_params = Map.put(conn.params, :type, String.to_existing_atom(type))
-        %{conn | params: normalized_params}
+      %{type: type} when is_binary(type) ->
+        # Convert type string to atom if it's a valid message type
+        type_atom = String.to_existing_atom(type)
+
+        if type_atom in @message_types do
+          normalized_params = Map.put(conn.params, :type, type_atom)
+          %{conn | params: normalized_params}
+        else
+          conn
+        end
 
       _ ->
         conn
     end
+  rescue
+    ArgumentError ->
+      # If the atom doesn't exist, just return conn unchanged
+      conn
   end
 end

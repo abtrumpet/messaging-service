@@ -10,7 +10,6 @@ This Phoenix application implements a unified messaging API supporting SMS, MMS,
 - **Tesla 1.15** - HTTP client for provider integrations
 - **OpenApiSpex 3.22** - OpenAPI specification generation
 - **Hammox 0.7** - Mocking library for tests
-- **BetterParams 0.5** - Parameter normalization (string keys → atoms)
 
 ## Architecture
 
@@ -162,10 +161,6 @@ test/
 - `MIX_ENV`: Environment (dev/test/prod)
 
 ## Development Notes
-
-### Parameter Handling
-
-The application uses `BetterParams` plug to automatically convert string parameter keys to atoms. This means all context functions and internal logic work with atom keys, making the code cleaner and type-safe.
 
 ### Provider Mocking with Hammox
 
