@@ -2,19 +2,6 @@
 
 ## [Unreleased]
 
-### Changed
-- Refactored provider implementations to follow canonical Tesla pattern
-  - Removed `BaseProvider` abstraction in favor of direct implementation
-  - Each provider now has a `client/0` function that returns a configured Tesla client
-  - Providers now use Finch HTTP client via Tesla middleware
-  - Improved error simulation for testing (429, 500, 404, 401 responses)
-  - Better separation of concerns with explicit client configuration
-
-### Removed
-- `MessagingService.Providers.BaseProvider` module
-  - Providers now implement the behaviour directly without inheritance
-  - Removed `use BaseProvider` pattern in favor of explicit implementation
-
 ### Added
 - Complete Phoenix 1.8.1 API-only application
 - Tesla 1.15.3 HTTP clients for SMS/MMS and Email providers
