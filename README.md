@@ -144,3 +144,10 @@ docker-compose exec postgres psql -U messaging_user -d messaging_service
 ```
 
 Again, you are welcome to make changes here, as long as they're in the docker-compose.yml
+
+
+## Running
+- Run `./bin/start.sh`
+- Run `mix test` to see the tests pass
+- Run `./bin/test.sh` to see those tests pass
+- Visite `localhost:8080/api/swagger` to view the swagger docs
