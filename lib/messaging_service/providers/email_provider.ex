@@ -2,13 +2,80 @@ defmodule MessagingService.Providers.EmailProvider do
   @moduledoc """
   Mock Email provider client using Tesla.
   In a real implementation, this would integrate with SendGrid or similar.
+
+  Follows the canonical Tesla pattern with a `client/0` function that returns
+  a configured client, and API functions that accept the client as a parameter.
   """
 
-  use MessagingService.Providers.BaseProvider
+  @behaviour MessagingService.Providers.Behaviour
 
-  @impl true
-  def base_url, do: "https://api.mockemailprovider.com"
+  @doc """
+  Creates a configured Tesla client for the email provider.
+  """
+  def client do
+    middleware = [
+      {Tesla.Middleware.BaseUrl, "https://api.mockemailprovider.com"},
+      {Tesla.Middleware.JSON, engine: Jason},
+      {Tesla.Middleware.Headers, [{"content-type", "application/json"}]},
+      {Tesla.Middleware.Finch, name: MessagingService.Finch}
+    ]
 
-  @impl true
-  def provider_id_prefix, do: "email_"
+    Tesla.client(middleware)
+  end
+
+  @doc """
+  Sends an email message via the provider API.
+
+  In a real implementation, this would use:
+  Tesla.post(client, "/send", params)
+  """
+  @impl MessagingService.Providers.Behaviour
+  def send_message(params) do
+    # In a real implementation:
+    # case Tesla.post(client(), "/send", params) do
+    #   {:ok, %Tesla.Env{status: 200, body: body}} ->
+    #     {:ok, %{provider_id: body["id"], status: "sent"}}
+    #   {:ok, %Tesla.Env{status: status}} ->
+    #     {:error, {:http_error, status}}
+    #   {:error, reason} ->
+    #     {:error, reason}
+    # end
+
+    # Mock simulation for testing
+    case simulate_send(params) do
+      {:ok, _response} ->
+        provider_id = "email_#{:crypto.strong_rand_bytes(8) |> Base.encode16()}"
+        {:ok, %{provider_id: provider_id, status: "sent"}}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  # Simulate different provider responses for testing
+  defp simulate_send(params) do
+    to = params["to"] || ""
+
+    cond do
+      # Simulate rate limiting
+      String.contains?(to, "429") ->
+        {:error, :rate_limited}
+
+      # Simulate server error
+      String.contains?(to, "500") ->
+        {:error, :server_error}
+
+      # Simulate not found
+      String.contains?(to, "404") ->
+        {:error, :not_found}
+
+      # Simulate unauthorized
+      String.contains?(to, "401") ->
+        {:error, :unauthorized}
+
+      # Default success
+      true ->
+        {:ok, %{success: true}}
+    end
+  end
 end
