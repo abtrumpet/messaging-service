@@ -38,7 +38,6 @@ defmodule MessagingServiceWeb.ConversationController do
     ]
 
   def messages(conn, %{"id" => id}) do
-    # Path params are not converted by BetterParams, so "id" is still a string
     conversation_id = String.to_integer(id)
     messages = Messaging.list_conversation_messages(conversation_id)
 

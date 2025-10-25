@@ -7,7 +7,6 @@
 - Tesla 1.15.3 HTTP clients for SMS/MMS and Email providers
 - OpenApiSpex 3.22.0 with Swagger UI at `/api/swagger`
 - Hammox 0.7.1 for provider mocking in tests
-- BetterParams 0.5.0 for automatic param key normalization
 - Full test suite with controller integration tests
 - Database migrations for conversations and messages
 - Automatic conversation grouping by participants
@@ -30,7 +29,6 @@
 ### Configuration
 - Tesla adapter configured to use Hackney
 - Jason configured as JSON library
-- BetterParams plug added to endpoint for param normalization
 - OpenAPI spec and Swagger UI routes configured
 
 ## Application Structure
